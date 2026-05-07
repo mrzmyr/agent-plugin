@@ -11,11 +11,10 @@ description: Question fallbacks, regex matching, and custom code when a popular 
 Bad fallback example:
 
 ```ts
-function maxResults(value, fallback) {
-  const n = Number(value ?? fallback);
-  if (!Number.isFinite(n)) return fallback;
-  return Math.max(1, Math.min(MAX_RESULTS, Math.trunc(n)));
-}
+const EVAL_USER_EMAIL =
+  process.env.EVAL_USER_EMAIL ??
+  process.env.BIGQUERY_EVAL_USER_EMAIL ??
+  "first.lastname@gmail.com";
 ```
 
 Good fallback example:
