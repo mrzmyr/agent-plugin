@@ -8,6 +8,16 @@ description: Question fallbacks, regex matching, and custom code when a popular 
 - question if a very popular library for your specific case could be used rather than adding all the code yourself (e.g. oauth)
 - question your usage of type overwrites/assertions when the inferred type should be used
 
+Bad fallback example:
+
+```ts
+function maxResults(value, fallback) {
+  const n = Number(value ?? fallback);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.max(1, Math.min(MAX_RESULTS, Math.trunc(n)));
+}
+```
+
 Bad regex example:
 
 ```ts
