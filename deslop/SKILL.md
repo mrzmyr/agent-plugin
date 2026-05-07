@@ -3,12 +3,15 @@ name: deslop
 description: Question fallbacks, regex matching, and custom code when a popular library could be used.
 ---
 
-- question your usage of fallbacks (e.g. environment variables overrides)
-- question your usage of pattern matching via regex
-- question if a very popular library for your specific case could be used rather than adding all the code yourself (e.g. oauth)
-- question your usage of type overwrites/assertions when the inferred type should be used
+# Deslop
 
-Bad fallback example:
+Question these patterns when creating, reviewing, or refactoring code.
+
+## Fallbacks
+
+- Question your usage of fallbacks (e.g. environment variables overrides).
+
+Avoid:
 
 ```ts
 const EVAL_USER_EMAIL =
@@ -17,7 +20,7 @@ const EVAL_USER_EMAIL =
   "first.lastname@gmail.com";
 ```
 
-Good fallback example:
+Prefer:
 
 ```ts
 const EVAL_USER_EMAIL = process.env.EVAL_USER_EMAIL;
@@ -27,7 +30,11 @@ if (!EVAL_USER_EMAIL) {
 }
 ```
 
-Bad regex example:
+## Regex Pattern Matching
+
+- Question your usage of pattern matching via regex.
+
+Avoid:
 
 ```ts
 function readOnlyQuery(query) {
@@ -38,7 +45,7 @@ function readOnlyQuery(query) {
 }
 ```
 
-Good regex example:
+Prefer:
 
 ```ts
 async function readOnlyQuery({ bigquery, query }) {
@@ -47,3 +54,11 @@ async function readOnlyQuery({ bigquery, query }) {
   return query;
 }
 ```
+
+## Popular Libraries
+
+- Question if a very popular library for your specific case could be used rather than adding all the code yourself (e.g. oauth).
+
+## Type Overwrites
+
+- Question your usage of type overwrites/assertions when the inferred type should be used.
