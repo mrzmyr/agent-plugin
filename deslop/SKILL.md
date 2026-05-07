@@ -20,10 +20,10 @@ const EVAL_USER_EMAIL =
 Good fallback example:
 
 ```ts
-function maxResults(value) {
-  const n = Number(value);
-  if (!Number.isFinite(n)) throw new Error("maxResults must be a number");
-  return Math.max(1, Math.min(MAX_RESULTS, Math.trunc(n)));
+const EVAL_USER_EMAIL = process.env.EVAL_USER_EMAIL;
+
+if (!EVAL_USER_EMAIL) {
+  throw new Error("EVAL_USER_EMAIL is required");
 }
 ```
 
