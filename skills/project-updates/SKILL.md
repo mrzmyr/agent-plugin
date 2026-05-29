@@ -58,3 +58,29 @@ When the project ends:
 ## Core
 
 Honest health + hard numbers + every claim links to proof + every problem has an owner.
+
+## Scoring
+
+After writing or reviewing an update, return a score from 1–100. Sum the points earned per criterion, then list the top 2–3 fixes that would raise the score.
+
+| Criterion | Points |
+|---|---|
+| Scannable structure — scoped title + `Progress`/`Blockers`/`Next` + honest health | 20 |
+| Numbers and deltas, not adjectives | 20 |
+| Every claim links to proof | 20 |
+| Bad news first, with cause and new ETA | 20 |
+| Findings are action items with an owner + ticket | 10 |
+| Credit given + cross-team dependencies explicit | 10 |
+
+Output format:
+
+```
+Score: 78/100
+- Structure 20/20
+- Numbers 15/20 — milestones lack before/after
+- Links 10/20 — three claims have no ticket
+- Honesty 20/20
+- Action items 8/10
+- Credit/deps 5/10 — "waiting on other teams" is vague
+Top fixes: link the three unverified claims; show milestone deltas; name who you wait on.
+```
