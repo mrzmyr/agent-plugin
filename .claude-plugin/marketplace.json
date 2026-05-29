@@ -8,7 +8,7 @@
     {
       "name": "mrzmyr-plugin",
       "source": ".",
-      "description": "Skills for TypeScript code review, skeptical implementation review, and terse communication."
+      "description": "Skills for TypeScript code review, skeptical implementation review, terse communication, and project status updates."
     }
   ]
 }

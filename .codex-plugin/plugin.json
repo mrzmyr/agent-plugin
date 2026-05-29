@@ -1,7 +1,7 @@
 {
   "name": "mrzmyr-plugin",
   "version": "0.1.0",
-  "description": "Skills for TypeScript code review, skeptical implementation review, and terse communication.",
+  "description": "Skills for TypeScript code review, skeptical implementation review, terse communication, and project status updates.",
   "author": {
     "name": "mrzmyr",
     "url": "https://github.com/mrzmyr"
@@ -34,7 +34,8 @@
     "defaultPrompt": [
       "Review this TypeScript code with typescript-principles.",
       "Use deslop to review this implementation.",
-      "Use caveman for a terse answer."
+      "Use caveman for a terse answer.",
+      "Use project-updates to write a status update."
     ],
     "brandColor": "#111111",
     "composerIcon": "./assets/logo.png",
