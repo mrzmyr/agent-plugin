@@ -5,8 +5,6 @@ description: Use when writing or reviewing a project status update to make it sc
 
 # Project Updates
 
-A good update reads in 30 seconds, tells the truth about where things stand, and lets anyone drill into detail without asking. Apply these when writing or reviewing one.
-
 ## Structure
 
 - **Scoped title** — one line saying what actually changed this period.
@@ -56,10 +54,6 @@ When the project ends:
 - **Wins on the sideline** — reusable learnings for the next project.
   - ✅ "Moving account creation upstream simplified the whole flow — reuse this pattern elsewhere."
 - **Known shortcuts + follow-up work, linked** — each deferred item links to its own follow-up.
-
-## Cadence
-
-- Regular rhythm — short when quiet, fuller at milestones. A tight "wrapping up, two items left" note in calm weeks; a full writeup at launch. Not silence for three weeks, then a novel.
 
 ## Core
 
