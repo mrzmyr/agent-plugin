@@ -22,3 +22,7 @@ Skeptical implementation review for fallbacks, hand-rolled regex, and custom cod
 ### 🦴 [`caveman`](skills/caveman)
 
 Ultra-compressed communication mode. Drops filler, keeps technical accuracy.
+
+### 📋 [`project-updates`](skills/project-updates)
+
+Write project status updates that are scannable, honest, and verifiable — with good/bad examples.
