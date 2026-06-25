@@ -15,6 +15,10 @@
 
 Naming, parameter, boolean, and error logging principles for TypeScript.
 
+### 🧭 [`typescript-coding-standards`](skills/typescript-coding-standards)
+
+Comprehensive TypeScript standards for typed errors, parsing, domain modeling, adapters, tests, safety, imports, comments, and config.
+
 ### 🧹 [`deslop`](skills/deslop)
 
 Skeptical implementation review for fallbacks, hand-rolled regex, and custom code that duplicates popular packages.

@@ -1,7 +1,7 @@
 {
   "name": "mrzmyr-plugin",
   "version": "0.1.0",
-  "description": "Skills for TypeScript code review, skeptical implementation review, terse communication, and project status updates.",
+  "description": "Skills for TypeScript coding standards, skeptical implementation review, terse communication, and project status updates.",
   "author": {
     "name": "mrzmyr",
     "url": "https://github.com/mrzmyr"
@@ -20,7 +20,7 @@
   "interface": {
     "displayName": "mrzmyr Plugin",
     "shortDescription": "TypeScript, deslop, and terse communication skills",
-    "longDescription": "Skills for applying TypeScript naming, parameter, error logging, and file-context principles; skeptical review of fallbacks, regex matching, custom code, and type assertions; plus ultra-compressed communication that preserves technical accuracy.",
+    "longDescription": "Skills for applying TypeScript principles and comprehensive coding standards covering typed errors, parsing, domain modeling, adapters, tests, safety, imports, comments, and config; skeptical review of fallbacks, regex matching, custom code, and type assertions; plus ultra-compressed communication that preserves technical accuracy.",
     "developerName": "mrzmyr",
     "category": "Coding",
     "capabilities": [
@@ -33,6 +33,7 @@
     "termsOfServiceURL": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
     "defaultPrompt": [
       "Review this TypeScript code with typescript-principles.",
+      "Use typescript-coding-standards to review this TypeScript design.",
       "Use deslop to review this implementation.",
       "Use caveman for a terse answer.",
       "Use project-updates to write a status update."

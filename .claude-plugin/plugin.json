@@ -1,6 +1,6 @@
 {
   "name": "mrzmyr-plugin",
-  "description": "Skills for TypeScript code review, skeptical implementation review, terse communication, and project status updates.",
+  "description": "Skills for TypeScript coding standards, skeptical implementation review, terse communication, and project status updates.",
   "version": "0.1.0",
   "author": {
     "name": "mrzmyr",
