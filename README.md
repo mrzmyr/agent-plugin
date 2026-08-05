@@ -15,10 +15,6 @@
 
 Engineering principles (no backward compatibility, simplest thing that works, grow in layers), naming, parameter, branch-body, and error logging rules for TypeScript, plus skeptical review of fallbacks, hand-rolled regex, type assertions, and custom code that duplicates popular packages.
 
-### 🧭 [`typescript-coding-standards`](skills/typescript-coding-standards)
-
-Comprehensive TypeScript standards for typed errors, parsing, domain modeling, adapters, tests, safety, imports, comments, and config.
-
 ### 🦴 [`caveman`](skills/caveman)
 
 Ultra-compressed communication mode. Drops filler, keeps technical accuracy.

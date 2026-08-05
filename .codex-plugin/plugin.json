@@ -1,7 +1,7 @@
 {
   "name": "mrzmyr-plugin",
   "version": "0.1.0",
-  "description": "Skills for TypeScript coding standards, skeptical implementation review, terse communication, and project status updates.",
+  "description": "Skills for coding standards, skeptical implementation review, terse communication, and project status updates.",
   "author": {
     "name": "mrzmyr",
     "url": "https://github.com/mrzmyr"
@@ -19,8 +19,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "mrzmyr Plugin",
-    "shortDescription": "TypeScript coding standards and terse communication skills",
-    "longDescription": "Skills for applying engineering principles, naming, parameter, branch-body, and error logging rules; comprehensive TypeScript standards for typed errors, parsing, domain modeling, adapters, tests, safety, imports, comments, and config; skeptical review of fallbacks, regex matching, custom code, and type assertions; plus ultra-compressed communication that preserves technical accuracy.",
+    "shortDescription": "Coding standards and terse communication skills",
+    "longDescription": "Skills for applying engineering principles, naming, parameter, branch-body, and error logging rules; skeptical review of fallbacks, regex matching, custom code, and type assertions; plus ultra-compressed communication that preserves technical accuracy.",
     "developerName": "mrzmyr",
     "category": "Coding",
     "capabilities": [
@@ -33,7 +33,6 @@
     "termsOfServiceURL": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
     "defaultPrompt": [
       "Review this TypeScript code with coding-standards.",
-      "Use typescript-coding-standards to review this TypeScript design.",
       "Use caveman for a terse answer.",
       "Use project-updates to write a status update."
     ],
