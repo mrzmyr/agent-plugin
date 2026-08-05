@@ -19,8 +19,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "mrzmyr Plugin",
-    "shortDescription": "TypeScript, deslop, and terse communication skills",
-    "longDescription": "Skills for applying TypeScript principles and comprehensive coding standards covering typed errors, parsing, domain modeling, adapters, tests, safety, imports, comments, and config; skeptical review of fallbacks, regex matching, custom code, and type assertions; plus ultra-compressed communication that preserves technical accuracy.",
+    "shortDescription": "TypeScript coding standards and terse communication skills",
+    "longDescription": "Skills for applying engineering principles, naming, parameter, branch-body, and error logging rules; comprehensive TypeScript standards for typed errors, parsing, domain modeling, adapters, tests, safety, imports, comments, and config; skeptical review of fallbacks, regex matching, custom code, and type assertions; plus ultra-compressed communication that preserves technical accuracy.",
     "developerName": "mrzmyr",
     "category": "Coding",
     "capabilities": [
@@ -32,9 +32,8 @@
     "privacyPolicyURL": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
     "termsOfServiceURL": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
     "defaultPrompt": [
-      "Review this TypeScript code with typescript-principles.",
+      "Review this TypeScript code with coding-standards.",
       "Use typescript-coding-standards to review this TypeScript design.",
-      "Use deslop to review this implementation.",
       "Use caveman for a terse answer.",
       "Use project-updates to write a status update."
     ],
