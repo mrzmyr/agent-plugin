@@ -1,12 +1,14 @@
 # create-mermaid
 
-Same prompt, two agents: [without skill](7395faf1-66fc-454f-99cb-baf55d538052) vs [with skill](29cb29a1-dfe8-4c70-9683-d76c3239dd51).
+Same catalog snapshot on both sides. **Without skill** is default Mermaid. **With skill** adds the design language (theme, two tones, units, caption).
 
 **Rows returned** (info `#81A1C1`) · **Usable records** (success `#3FA266`) · empty finding (warning `#F1B467`)
 
 **Usable** = well-formed id or non-empty roster. Counts are **raw rows**, not unique people.
 
 ## 1. Rows vs usable
+
+X-axis: Catalog tool · Y-axis: Count (rows) · series: **Rows returned** `[0, 3, 0, 1, 0]` · **Usable records** `[0, 1, 0, 1, 0]`
 
 <table>
 <tr>
@@ -18,11 +20,11 @@ Same prompt, two agents: [without skill](7395faf1-66fc-454f-99cb-baf55d538052) v
 
 ```mermaid
 xychart-beta
-    title "Rows returned vs usable records"
-    x-axis [listOrgs, listProjects, listMembers, getProject, getProjectMembers]
-    y-axis "Count" 0 --> 3
-    bar [0, 3, 0, 1, 0]
-    bar [0, 1, 0, 1, 0]
+  title "Rows returned vs usable records by list tool"
+  x-axis [listOrgs, listProjects, listMembers, getProject, getProjectMembers]
+  y-axis "Count (rows)" 0 --> 4
+  bar [0, 3, 0, 1, 0]
+  line [0, 1, 0, 1, 0]
 ```
 
 </td>
@@ -46,6 +48,8 @@ Source: Catalog API · snapshot date · raw row counts · Usable = well-formed i
 
 ## 2. Discovery chain
 
+Nodes: `listOrgs` → `optional org filter` → `listProjects` → `getProject` / `getProjectMembers`. `listMembers` is optional from `listProjects`.
+
 <table>
 <tr>
 <th width="50%">Without skill</th>
@@ -55,12 +59,18 @@ Source: Catalog API · snapshot date · raw row counts · Usable = well-formed i
 <td valign="top">
 
 ```mermaid
-flowchart TD
-    listOrgs --> orgFilter[optional org filter]
-    orgFilter --> listProjects
-    listProjects --> getProject["getProject(id)"]
-    listProjects --> getProjectMembers["getProjectMembers(id)"]
-    listMembers -.-> listProjects
+flowchart TB
+  listOrgs["listOrgs"]
+  optOrg["optional org filter"]
+  listProjects["listProjects"]
+  listMembers["listMembers"]
+  getProject["getProject"]
+  getProjectMembers["getProjectMembers"]
+  listOrgs --> optOrg
+  optOrg -.-> listProjects
+  listProjects --> getProject
+  listProjects --> getProjectMembers
+  listProjects -.-> listMembers
 ```
 
 </td>
@@ -68,23 +78,28 @@ flowchart TD
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#181818', 'primaryTextColor': '#E4E4E4', 'primaryBorderColor': '#E4E4E433', 'lineColor': '#E4E4E48D', 'secondaryColor': '#141414', 'tertiaryColor': '#E4E4E411'}}}%%
-flowchart LR
-  listOrgs:::warning
-  listMembers:::warning
-  listProjects:::primary
-  subgraph getPair[getProject]
-    getProject:::success
-    getProjectMembers:::warning
+flowchart TB
+  listOrgs["listOrgs"]
+  optOrg["optional org filter"]
+  listProjects["listProjects"]
+  listMembers["listMembers"]
+  subgraph api["Project API surface"]
+    getProject["getProject"]
+    getProjectMembers["getProjectMembers"]
   end
-  listOrgs -.->|org filter| listProjects
-  listOrgs -.-> listMembers
-  listProjects -->|id| getProject
-  listProjects -->|id| getProjectMembers
-  classDef info fill:#81A1C133,stroke:#81A1C1,color:#E4E4E4EB
-  classDef success fill:#3FA26633,stroke:#3FA266,color:#E4E4E4EB
-  classDef warning fill:#F1B46733,stroke:#F1B467,color:#E4E4E4EB
-  classDef neutral fill:#E4E4E411,stroke:#E4E4E414,color:#E4E4E4EB
+  listOrgs --> optOrg
+  optOrg -.-> listProjects
+  listProjects --> getProject
+  listProjects --> getProjectMembers
+  listProjects -.-> listMembers
+  class listProjects primary
+  class getProject success
+  class optOrg neutral
+  class listOrgs,listMembers,getProjectMembers warning
   classDef primary fill:#599CE7,stroke:#599CE7,color:#191c22
+  classDef success fill:#1e3328,stroke:#3FA266,color:#E4E4E4
+  classDef warning fill:#3a3020,stroke:#F1B467,color:#E4E4E4
+  classDef neutral fill:#2a2a2a,stroke:#3d3d3d,color:#E4E4E4
 ```
 
 Source: Catalog API · snapshot date · dashed = optional filter · solid = required id
@@ -95,6 +110,8 @@ Source: Catalog API · snapshot date · dashed = optional filter · solid = requ
 
 ## 3. Agent API calls
 
+Same five calls, same replies, same order.
+
 <table>
 <tr>
 <th width="50%">Without skill</th>
@@ -105,40 +122,38 @@ Source: Catalog API · snapshot date · dashed = optional filter · solid = requ
 
 ```mermaid
 sequenceDiagram
-    participant Agent
-    participant API
-    Agent->>API: listOrgs
-    API-->>Agent: 0 rows
-    opt optional
-        Agent->>API: listMembers
-        API-->>Agent: 0 rows
-    end
-    Agent->>API: listProjects
-    API-->>Agent: 3 rows, 1 usable
-    Agent->>API: getProject(id)
-    API-->>Agent: 1 usable record
-    Agent->>API: getProjectMembers(id)
-    API-->>Agent: 0 member rows
+  participant Agent
+  participant Catalog
+  Agent->>Catalog: listOrgs
+  Catalog-->>Agent: 0 rows
+  Agent->>Catalog: listProjects
+  Catalog-->>Agent: 3 rows, 1 usable
+  Agent->>Catalog: listMembers
+  Catalog-->>Agent: 0 rows
+  Agent->>Catalog: getProject(id)
+  Catalog-->>Agent: 1 usable record
+  Agent->>Catalog: getProjectMembers(id)
+  Catalog-->>Agent: 0 member rows
 ```
 
 </td>
 <td valign="top">
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#181818', 'primaryTextColor': '#E4E4E4', 'primaryBorderColor': '#E4E4E433', 'lineColor': '#E4E4E48D', 'secondaryColor': '#141414', 'tertiaryColor': '#E4E4E411', 'actorBkg': '#E4E4E411', 'actorBorder': '#E4E4E414', 'actorTextColor': '#E4E4E4', 'signalColor': '#E4E4E48D', 'signalTextColor': '#E4E4E4'}}}%%
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#181818', 'primaryTextColor': '#E4E4E4', 'primaryBorderColor': '#E4E4E433', 'lineColor': '#E4E4E48D', 'secondaryColor': '#141414', 'tertiaryColor': '#E4E4E411', 'actorBkg': '#2a2a2a', 'actorBorder': '#3d3d3d', 'actorTextColor': '#E4E4E4', 'signalColor': '#8d8d8d', 'signalTextColor': '#E4E4E4'}}}%%
 sequenceDiagram
-  actor Agent
+  participant Agent
   participant Catalog
   Agent->>Catalog: listOrgs
   Catalog-->>Agent: 0 rows
   Agent->>Catalog: listProjects
-  Catalog-->>Agent: 3 rows
-  Agent->>Catalog: getProject(id)
-  Catalog-->>Agent: 1 usable
-  Agent->>Catalog: getProjectMembers(id)
-  Catalog-->>Agent: 0 rows
+  Catalog-->>Agent: 3 rows, 1 usable
   Agent->>Catalog: listMembers
   Catalog-->>Agent: 0 rows
+  Agent->>Catalog: getProject(id)
+  Catalog-->>Agent: 1 usable record
+  Agent->>Catalog: getProjectMembers(id)
+  Catalog-->>Agent: 0 member rows
 ```
 
 Source: Catalog API · snapshot date · raw row counts · Usable = well-formed id or non-empty roster
@@ -149,6 +164,8 @@ Source: Catalog API · snapshot date · raw row counts · Usable = well-formed i
 
 ## 4. Row quality states
 
+Same states: Returned → Usable / Polluted / Empty.
+
 <table>
 <tr>
 <th width="50%">Without skill</th>
@@ -159,11 +176,13 @@ Source: Catalog API · snapshot date · raw row counts · Usable = well-formed i
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Fetched
-    Fetched --> Usable: well-formed id or non-empty roster
-    Fetched --> Polluted: malformed id
-    Usable --> [*]
-    Polluted --> [*]
+  [*] --> Returned
+  Returned --> Usable: well-formed id
+  Returned --> Polluted: malformed id
+  Returned --> Empty: 0 rows
+  Usable --> [*]
+  Polluted --> [*]
+  Empty --> [*]
 ```
 
 </td>
@@ -172,14 +191,19 @@ stateDiagram-v2
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#181818', 'primaryTextColor': '#E4E4E4', 'primaryBorderColor': '#E4E4E433', 'lineColor': '#E4E4E48D', 'secondaryColor': '#141414', 'tertiaryColor': '#E4E4E411'}}}%%
 stateDiagram-v2
-  [*] --> returned
-  returned --> usable: well-formed id
-  returned --> polluted: malformed id
-  classDef info fill:#81A1C133,stroke:#81A1C1,color:#E4E4E4EB
-  classDef success fill:#3FA26633,stroke:#3FA266,color:#E4E4E4EB
-  class returned info
-  class polluted info
-  class usable success
+  [*] --> Returned
+  Returned --> Usable: well-formed id
+  Returned --> Polluted: malformed id
+  Returned --> Empty: 0 rows
+  Usable --> [*]
+  Polluted --> [*]
+  Empty --> [*]
+  class Returned info
+  class Usable success
+  class Polluted,Empty warning
+  classDef info fill:#1a2a33,stroke:#81A1C1,color:#E4E4E4
+  classDef success fill:#1e3328,stroke:#3FA266,color:#E4E4E4
+  classDef warning fill:#3a3020,stroke:#F1B467,color:#E4E4E4
 ```
 
 Source: Catalog API · snapshot date · one listProjects row · Usable = well-formed id
@@ -190,6 +214,8 @@ Source: Catalog API · snapshot date · one listProjects row · Usable = well-fo
 
 ## 5. listProjects quality mix
 
+Same slices: **Usable records** 1 · **Polluted rows** 2.
+
 <table>
 <tr>
 <th width="50%">Without skill</th>
@@ -199,9 +225,10 @@ Source: Catalog API · snapshot date · one listProjects row · Usable = well-fo
 <td valign="top">
 
 ```mermaid
-pie title listProjects row quality
-    "Usable" : 1
-    "Polluted" : 2
+pie showData
+  title "listProjects row quality"
+  "Usable records" : 1
+  "Polluted rows" : 2
 ```
 
 </td>
