@@ -1,7 +1,7 @@
 {
   "name": "mrzmyr-plugin",
   "version": "0.1.0",
-  "description": "Skills for coding standards, skeptical implementation review, terse communication, and project status updates.",
+  "description": "Skills for coding standards, skeptical implementation review, terse communication, project status updates, and Mermaid diagrams.",
   "author": {
     "name": "mrzmyr",
     "url": "https://github.com/mrzmyr"
@@ -14,13 +14,14 @@
     "skills",
     "typescript",
     "code-review",
-    "brevity"
+    "brevity",
+    "mermaid"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "mrzmyr Plugin",
-    "shortDescription": "Coding standards and terse communication skills",
-    "longDescription": "Skills for applying engineering principles, naming, parameter, branch-body, and error logging rules; skeptical review of fallbacks, regex matching, custom code, and type assertions; plus ultra-compressed communication that preserves technical accuracy.",
+    "shortDescription": "Coding standards, terse communication, and Mermaid diagrams",
+    "longDescription": "Skills for applying engineering principles, naming, parameter, branch-body, and error logging rules; skeptical review of fallbacks, regex matching, custom code, and type assertions; ultra-compressed communication that preserves technical accuracy; and Mermaid diagrams with titled metrics, named axes, and two semantic tones.",
     "developerName": "mrzmyr",
     "category": "Coding",
     "capabilities": [
@@ -34,7 +35,8 @@
     "defaultPrompt": [
       "Review this TypeScript code with coding-standards.",
       "Use caveman for a terse answer.",
-      "Use project-updates to write a status update."
+      "Use project-updates to write a status update.",
+      "Use create-mermaid to draw a diagram."
     ],
     "brandColor": "#111111",
     "composerIcon": "./assets/logo.png",

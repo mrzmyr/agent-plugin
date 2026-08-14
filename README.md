@@ -22,3 +22,7 @@ Ultra-compressed communication mode. Drops filler, keeps technical accuracy.
 ### 📋 [`project-updates`](skills/project-updates)
 
 Write project status updates that are scannable, honest, and verifiable — with good/bad examples.
+
+### 📐 [`create-mermaid`](skills/create-mermaid)
+
+Write Mermaid diagrams in a canvas-derived design language: one metric, named axes with units, two semantic tones, zeros kept. See the [examples](skills/create-mermaid/README.md).
