@@ -40,11 +40,11 @@ xychart-beta
   line [0, 1, 0, 1, 0]
 ```
 
-Source: Catalog API · snapshot date · raw row counts · Usable = well-formed id or non-empty roster
-
 </td>
 </tr>
 </table>
+
+Source: Catalog API · snapshot date · raw row counts · Usable = well-formed id or non-empty roster
 
 ## 2. Discovery chain
 
@@ -102,11 +102,11 @@ flowchart TB
   classDef neutral fill:#2a2a2a,stroke:#3d3d3d,color:#E4E4E4
 ```
 
-Source: Catalog API · snapshot date · dashed = optional filter · solid = required id
-
 </td>
 </tr>
 </table>
+
+Source: Catalog API · snapshot date · dashed = optional filter · solid = required id
 
 ## 3. Agent API calls
 
@@ -156,11 +156,11 @@ sequenceDiagram
   Catalog-->>Agent: 0 member rows
 ```
 
-Source: Catalog API · snapshot date · raw row counts · Usable = well-formed id or non-empty roster
-
 </td>
 </tr>
 </table>
+
+Source: Catalog API · snapshot date · raw row counts · Usable = well-formed id or non-empty roster
 
 ## 4. Row quality states
 
@@ -206,11 +206,11 @@ stateDiagram-v2
   classDef warning fill:#3a3020,stroke:#F1B467,color:#E4E4E4
 ```
 
-Source: Catalog API · snapshot date · one listProjects row · Usable = well-formed id
-
 </td>
 </tr>
 </table>
+
+Source: Catalog API · snapshot date · one listProjects row · Usable = well-formed id
 
 ## 5. listProjects quality mix
 
@@ -242,8 +242,8 @@ pie showData
   "Polluted rows" : 2
 ```
 
-Source: Catalog API · snapshot date · **Usable records** (success) · **Polluted rows** (warning) · n=3
-
 </td>
 </tr>
 </table>
+
+Source: Catalog API · snapshot date · **Usable records** (success) · **Polluted rows** (warning) · n=3
