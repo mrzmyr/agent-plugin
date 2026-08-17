@@ -22,3 +22,7 @@ Ultra-compressed communication mode. Drops filler, keeps technical accuracy.
 ### 📋 [`project-updates`](skills/project-updates)
 
 Write project status updates that are scannable, honest, and verifiable — with good/bad examples.
+
+### 👶 [`babysit-pr`](skills/babysit-pr)
+
+Watch a pull request until review comments, conflicts, and CI failures are handled — refreshing live state each pass, never force-pushing, never merging.
