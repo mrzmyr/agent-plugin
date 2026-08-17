@@ -26,3 +26,7 @@ Write project status updates that are scannable, honest, and verifiable — with
 ### 👶 [`babysit-pr`](skills/babysit-pr)
 
 Watch a pull request until review comments, conflicts, and CI failures are handled — refreshing live state each pass, never force-pushing, never merging.
+
+### 🚀 [`file-pr`](skills/file-pr)
+
+Open pull requests reviewers can actually read: conventional title, problem → solution, small code examples, and a mermaid diagram of what changed.
