@@ -1,0 +1,3 @@
+- You MUST follow coding standards, see `skills/coding-standards/SKILL.md`
+- You MUST remove PII and company-specific terminology from skills, docs, examples, and commit messages. Use generic names, placeholder domains, and vendor-neutral examples.
+- You MUST use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages.

@@ -25,8 +25,8 @@ description: Use when writing, reviewing, or refactoring TypeScript
 ```ts
 getUsers({ pageSize, pageIndex });
 
-const tool = bareToolName({
-  toolName: ctx.toolName,
+const tool = stripPrefix({
+  value: ctx.toolName,
   prefix: prefix,
 });
 ```
@@ -36,7 +36,7 @@ const tool = bareToolName({
 ```ts
 getUsers(pageSize, pageIndex);
 
-bareToolName(ctx.toolName, prefix);
+stripPrefix(ctx.toolName, prefix);
 ```
 
 ## Branch Bodies
@@ -46,7 +46,7 @@ Never use shorthand if/else. Always use a block body. The same applies to ternar
 ✅ Use
 
 ```ts
-if (audience === getChatScope(ctx)) {
+if (audience === getScope(ctx)) {
   return "not-applicable";
 }
 ```
@@ -54,7 +54,7 @@ if (audience === getChatScope(ctx)) {
 ❌ Avoid
 
 ```ts
-if (audience === getChatScope(ctx)) return "not-applicable";
+if (audience === getScope(ctx)) return "not-applicable";
 
 const tool = ctx.toolName.startsWith(prefix)
   ? ctx.toolName.slice(prefix.length)
@@ -79,16 +79,16 @@ The fields must be specific enough for an operator or developer to understand wh
 ```ts
 throw createError({
   status: 502,
-  message: "Auth0 metadata request failed",
-  why: `Auth0 returned status ${response.status} while loading OAuth metadata`,
-  fix: "Verify Auth0 is reachable and the issuer configuration is correct",
+  message: "OAuth metadata request failed",
+  why: `The provider returned status ${response.status} while loading OAuth metadata`,
+  fix: "Verify the OAuth provider is reachable and the issuer configuration is correct",
 });
 ```
 
 ❌ Avoid
 
 ```ts
-throw new Error(`Auth0 metadata request failed with ${response.status}`);
+throw new Error(`OAuth metadata request failed with ${response.status}`);
 ```
 
 ## Boolean Names
@@ -194,20 +194,25 @@ export function getDataAnalysisSandbox() {
 ✅ Use
 
 ```ts
-const EVAL_USER_EMAIL = process.env.EVAL_USER_EMAIL;
+const DATABASE_URL = process.env.DATABASE_URL;
 
-if (!EVAL_USER_EMAIL) {
-  throw new Error("EVAL_USER_EMAIL is required");
+if (!DATABASE_URL) {
+  throw createError({
+    status: 500,
+    message: "DATABASE_URL is required",
+    why: "DATABASE_URL was not set in the environment",
+    fix: "Set DATABASE_URL before starting the service",
+  });
 }
 ```
 
 ❌ Avoid
 
 ```ts
-const EVAL_USER_EMAIL =
-  process.env.EVAL_USER_EMAIL ??
-  process.env.BIGQUERY_EVAL_USER_EMAIL ??
-  "first.lastname@gmail.com";
+const DATABASE_URL =
+  process.env.DATABASE_URL ??
+  process.env.LEGACY_DATABASE_URL ??
+  "postgres://localhost:5432/app";
 ```
 
 ## Regex Pattern Matching
@@ -217,10 +222,10 @@ const EVAL_USER_EMAIL =
 ✅ Use
 
 ```ts
-async function readOnlyQuery({ bigquery, query }) {
-  const [job] = await bigquery.createQueryJob({ query, dryRun: true, useLegacySql: false });
+async function readOnlyQuery({ db, query }) {
+  const result = await db.explainQuery({ query });
 
-  if (job.metadata.statistics?.query?.statementType !== "SELECT") {
+  if (result.statementType !== "SELECT") {
     // throw structured error
   }
 
@@ -237,4 +242,116 @@ function readOnlyQuery(query) {
   if (/\b(insert|update|delete|drop|alter|create)\b/i.test(sql)) throw new Error("mutating sql");
   return sql;
 }
+```
+
+## JSDoc Comments
+
+- You must write a JSDoc comment for each exported symbol. You must write a JSDoc comment for each public method and each public property of an exported class.
+- Write the JSDoc comment on the original declaration. Do not write a JSDoc comment for a re-export.
+- Write a JSDoc comment for internal code only when the code is complex.
+- Write the invariant, the limitation, or the constraint that the TypeScript types cannot show.
+- Do not describe how the code operates. Do not write the TypeScript types again in the comment. Do not use `@inheritDoc` or `@inherit`.
+- In the `@returns` tag, write the typed errors that the function can return. These errors include `Result` types and tagged errors.
+- Use the `@throws` tag only if one of these is true:
+  - The throw shows a defect that the program cannot correct.
+  - The framework makes the throw necessary.
+  - The path is a temporary `notYetImplemented` path.
+- Write a JSDoc comment for each field of a complex object type that you export.
+
+✅ Good
+
+```ts
+/**
+ * Parse an email address from untrusted input.
+ *
+ * The input is trimmed and lower-cased before validation. Construct values
+ * only through this function; the brand makes raw strings unusable where an
+ * {@link EmailAddress} is required.
+ *
+ * @param input - The untrusted string to parse.
+ * @returns A parsed {@link EmailAddress}, or {@link InvalidEmailAddress} when
+ *   the input is invalid.
+ */
+export function parse(input: string): Result<EmailAddress, InvalidEmailAddress> {
+  // ...
+}
+
+/** Input required to evaluate a boolean flag for a single user. */
+export type BooleanFlagInput = {
+  /** The feature flag key to evaluate. */
+  readonly flagKey: string;
+  /** The user's email, used as both context key and email attribute. */
+  readonly userEmail: string;
+  /** The value returned when the flag cannot be evaluated. */
+  readonly defaultValue: boolean;
+};
+```
+
+❌ Bad
+
+```ts
+/**
+ * Parses input.
+ *
+ * @inheritDoc
+ * @param input - string
+ * @returns Result<EmailAddress, InvalidEmailAddress>
+ */
+export function parse(input: string): Result<EmailAddress, InvalidEmailAddress> {
+  // ...
+}
+
+export type BooleanFlagInput = {
+  readonly flagKey: string;
+  readonly userEmail: string;
+  readonly defaultValue: boolean;
+};
+```
+
+## Comments on Edge Cases
+
+- When fixing edge cases, add a comment explaining and add links to the relevant documentation.
+
+✅ Good
+
+```ts
+/**
+ * Context window of {@link MODEL_ID}. Declared here because this model is
+ * unlisted in the gateway catalog, so the build cannot resolve compaction
+ * metadata. Keep it in sync when the model changes.
+ * See https://example.com/docs/agent-config
+ */
+export const MODEL_CONTEXT_WINDOW_TOKENS = 1_000_000;
+```
+
+❌ Bad
+
+```ts
+export const MODEL_CONTEXT_WINDOW_TOKENS = 1_000_000;
+```
+
+✅ Good
+
+```ts
+/**
+ * Terminal assistant message held until the turn ends.
+ *
+ * `message.completed` fires inside the step that produced it, before that
+ * step's `step.completed` reports usage. Posting there would render a footer
+ * whose cost is always missing on a single-step turn, so delivery waits for
+ * `turn.completed`. See https://example.com/docs/sessions
+ */
+const pendingChannelResponse = defineState<PendingChannelResponse | null>(
+  "my-agent.pending-channel-response",
+  () => null,
+);
+```
+
+❌ Bad
+
+```ts
+const pendingChannelResponse = defineState<PendingChannelResponse | null>(
+  "my-agent.pending-channel-response",
+  () => null,
+);
 ```
